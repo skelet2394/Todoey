@@ -68,6 +68,14 @@ class CategoryViewController: UITableViewController {
         }
         tableView.reloadData()
     }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let categoryName = category[indexPath.row]
+        context.delete(categoryName)
+        category.remove(at: indexPath.row)
+        saveCategories()
+        tableView.reloadData()
+
+    }
     // MARK: - Add New Categories
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
