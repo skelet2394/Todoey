@@ -81,18 +81,25 @@ class CategoryViewController: UITableViewController {
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Add Category", style: .default) { (action) in
-            let newCategory = Category(context: self.context)
-            newCategory.name = textField.text!
-            self.category.append(newCategory)
-            self.saveCategories()
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (cancelAction) in
         }
-        alert.addAction(action)
+        let addAction = UIAlertAction(title: "Add Category", style: .default) { (addAction) in
+            let newCategory = Category(context: self.context)
+            if textField.text == "" {
+               textField.text = "Unnamed category"
+            }
+                newCategory.name = textField.text!
+                self.category.append(newCategory)
+                self.saveCategories()
+        }
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
         alert.addTextField { (field) in
             field.placeholder = "Create a new category"
             textField = field
         }
         present(alert, animated: true, completion: nil)
+        
     }
 
 }

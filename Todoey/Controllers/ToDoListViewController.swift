@@ -51,9 +51,14 @@ class ToDoListViewController: UITableViewController {
     @IBAction func AddButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (cancel) in
+        }
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             //what will happen whe user clicks the Add Item button
             let newItem = Item(context: self.context)
+            if textField.text == "" {
+                textField.text = "Unnamed item"
+            }
             newItem.title = textField.text!
             newItem.done = false
             newItem.parentCategory = self.selectedCategory
@@ -65,6 +70,7 @@ class ToDoListViewController: UITableViewController {
             textField = alertTextField
         }
         alert.addAction(action)
+        alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
     // MARK - Model Manipulation Methods
