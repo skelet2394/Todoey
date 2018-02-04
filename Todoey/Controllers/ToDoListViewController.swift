@@ -72,6 +72,7 @@ class ToDoListViewController: UITableViewController {
                             textField.text = "Unnamed item"
                         }
                         newItem.title = textField.text!
+                        newItem.dateCreated = Date()
                         currentCategory.items.append(newItem)
                     }
                 } catch {
@@ -92,7 +93,7 @@ class ToDoListViewController: UITableViewController {
         // MARK - Model Manipulation Methods
         
         func loadItems () {
-            toDoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
+            toDoItems = selectedCategory?.items.sorted(byKeyPath: "dateCreated", ascending: false)
             tableView.reloadData()
         }
             override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -109,7 +110,15 @@ class ToDoListViewController: UITableViewController {
             }
 }
 // MARK - Search Bar Methods
-//extension ToDoListViewController: UISearchBarDelegate {
+extension ToDoListViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadItems()
+        } else {
+            toDoItems = toDoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "title", ascending: true)
+        }
+    }
+}
 //    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 //        if searchBar.text?.count == 0 {
 //            loadItems()

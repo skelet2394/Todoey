@@ -62,7 +62,7 @@ class CategoryViewController: UITableViewController {
         tableView.reloadData()
     }
     func loadCategory () {
-        categories = realm.objects(Category.self)
+        categories = realm.objects(Category.self).sorted(byKeyPath: "created", ascending: false)
     }
 //    func loadCategories(with request: NSFetchRequest<Category> = Category.fetchRequest()) {
 //
@@ -111,4 +111,15 @@ class CategoryViewController: UITableViewController {
         
     }
 }
-
+    //MARK: - Search
+extension CategoryViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print("Errorz")
+        if searchBar.text?.count == 0 {
+            loadCategory()
+        } else {
+            categories = categories?.filter("name CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "name", ascending: true)
+        }
+    }
+}
