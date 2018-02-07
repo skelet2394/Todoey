@@ -22,7 +22,6 @@ class ToDoListViewController: UITableViewController {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))        
     }
-    
     // MARK - TableView Datasource methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -59,18 +58,14 @@ class ToDoListViewController: UITableViewController {
     
     @IBAction func AddButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
-        let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
+        let alert = TextEnabledAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (cancel) in
         }
-        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
-            //what will happen whe user clicks the Add Item button
+        let addItem = UIAlertAction(title: "Add Item", style: .default) { (action) in
             if let currentCategory = self.selectedCategory {
                 do {
                     try self.realm.write {
                         let newItem = Item()
-                        if textField.text == "" {
-                            textField.text = "Unnamed item"
-                        }
                         newItem.title = textField.text!
                         newItem.dateCreated = Date()
                         currentCategory.items.append(newItem)
@@ -81,15 +76,18 @@ class ToDoListViewController: UITableViewController {
             }
             self.tableView.reloadData()
         }
-            alert.addTextField { (alertTextField) in
-                alertTextField.placeholder = "Create new item"
-                textField = alertTextField
-            }
-            alert.addAction(action)
-            alert.addAction(cancelAction)
-            present(alert, animated: true, completion: nil)
-            
+        addItem.isEnabled = false
+        alert.addTextField(configurationHandler: { (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField
+        }) { (alertTextField) in
+            addItem.isEnabled = textField.text?.count != 0
         }
+        alert.addAction(addItem)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+        
+    }
         // MARK - Model Manipulation Methods
         
         func loadItems () {

@@ -15,6 +15,7 @@
 		926E94DE202530EA00A32FD0 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926E94DD202530EA00A32FD0 /* Item.swift */; };
 		926E94E0202530F000A32FD0 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926E94DF202530F000A32FD0 /* Category.swift */; };
 		926E94E2202550AC00A32FD0 /* CascadeDeleting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926E94E1202550AC00A32FD0 /* CascadeDeleting.swift */; };
+		92C6146E202B962700DEAEE1 /* TextEnabledAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C6146D202B962700DEAEE1 /* TextEnabledAlertController.swift */; };
 		A79FB83907D73C8617D7503C /* Pods_Todoey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF3B30D5D6F505E65115E0C8 /* Pods_Todoey.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,7 @@
 		926E94DD202530EA00A32FD0 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		926E94DF202530F000A32FD0 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		926E94E1202550AC00A32FD0 /* CascadeDeleting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CascadeDeleting.swift; sourceTree = "<group>"; };
+		92C6146D202B962700DEAEE1 /* TextEnabledAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEnabledAlertController.swift; sourceTree = "<group>"; };
 		98F9666FE6535423F76437FB /* Pods-Todoey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Todoey.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Todoey/Pods-Todoey.debug.xcconfig"; sourceTree = "<group>"; };
 		DF3B30D5D6F505E65115E0C8 /* Pods_Todoey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Todoey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -92,6 +94,7 @@
 			children = (
 				92423AFE202293E200062604 /* ToDoListViewController.swift */,
 				92345D862024A7E500CB036F /* CategoryViewController.swift */,
+				92C6146D202B962700DEAEE1 /* TextEnabledAlertController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				926E94DE202530EA00A32FD0 /* Item.swift in Sources */,
+				92C6146E202B962700DEAEE1 /* TextEnabledAlertController.swift in Sources */,
 				92345D872024A7E500CB036F /* CategoryViewController.swift in Sources */,
 				926E94E2202550AC00A32FD0 /* CascadeDeleting.swift in Sources */,
 				92423AFF202293E200062604 /* ToDoListViewController.swift in Sources */,

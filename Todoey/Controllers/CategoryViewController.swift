@@ -89,26 +89,25 @@ class CategoryViewController: UITableViewController {
     // MARK: - Add New Categories
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        var textField = UITextField()
-        let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
+        var alertTextField = UITextField()
+        let alert = TextEnabledAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (cancelAction) in
         }
-        let addAction = UIAlertAction(title: "Add", style: .default) { (addAction) in
+        let addCategory = UIAlertAction(title: "Add", style: .default) { (addAction) in
             let newCategory = Category()
-            if textField.text == "" {
-               textField.text = "Unnamed category"
-            }
-                newCategory.name = textField.text!
-                self.save(category: newCategory)
+            newCategory.name = alertTextField.text!
+            self.save(category: newCategory)
         }
-        alert.addAction(addAction)
+        addCategory.isEnabled = false
+        alert.addAction(addCategory)
         alert.addAction(cancelAction)
-        alert.addTextField { (field) in
-            field.placeholder = "Create a new category"
-            textField = field
+        alert.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = "Create a new category"
+        }) { (textField) in
+            addCategory.isEnabled = textField.text?.count != 0
+            alertTextField = textField
         }
         present(alert, animated: true, completion: nil)
-        
     }
 }
     //MARK: - Search
