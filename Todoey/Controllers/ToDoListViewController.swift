@@ -11,8 +11,10 @@ import RealmSwift
 
 class ToDoListViewController: UITableViewController {
     
-    var toDoItems:Results<Item>?
     let realm = try! Realm()
+    
+    var toDoItems:Results<Item>?
+    
     var selectedCategory: Category? {
         didSet{
             loadItems()
@@ -53,7 +55,7 @@ class ToDoListViewController: UITableViewController {
             tableView.reloadData()
         }
     }
-        
+    
     // MARK - Add New Items
     
     @IBAction func AddButtonPressed(_ sender: UIBarButtonItem) {
@@ -88,24 +90,24 @@ class ToDoListViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
         
     }
-        // MARK - Model Manipulation Methods
-        
-        func loadItems () {
-            toDoItems = selectedCategory?.items.sorted(byKeyPath: "dateCreated", ascending: false)
+    // MARK - Model Manipulation Methods
+    
+    func loadItems () {
+        toDoItems = selectedCategory?.items.sorted(byKeyPath: "dateCreated", ascending: false)
+        tableView.reloadData()
+    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if let item = toDoItems?[indexPath.row] {
+            do {
+                try realm.write {
+                    realm.delete(item)
+                }
+            } catch {
+                print("Error deleting item \(error)")
+            }
             tableView.reloadData()
         }
-            override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-                if let item = toDoItems?[indexPath.row] {
-                    do {
-                        try realm.write {
-                        realm.delete(item)
-                        }
-                    } catch {
-                        print("Error deleting item \(error)")
-                    }
-                    tableView.reloadData()
-                }
-            }
+    }
 }
 // MARK - Search Bar Methods
 extension ToDoListViewController: UISearchBarDelegate {
@@ -114,20 +116,8 @@ extension ToDoListViewController: UISearchBarDelegate {
             loadItems()
         } else {
             toDoItems = toDoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "title", ascending: true)
+            tableView.reloadData()
         }
     }
 }
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        if searchBar.text?.count == 0 {
-//            loadItems()
-//            DispatchQueue.main.async {
-//                searchBar.resignFirstResponder()
-//            }
-//        } else {
-//            let request : NSFetchRequest<Item> = Item.fetchRequest()
-//            let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
-//            request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-//            loadItems(with: request, predicate: predicate)
-//        }
-//    }
-//}
+

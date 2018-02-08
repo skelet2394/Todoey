@@ -8,40 +8,40 @@
 
 import UIKit
 import RealmSwift
+
 class CategoryViewController: UITableViewController {
     
     let realm = try! Realm()
     
     var categories: Results<Category>?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadCategory()
-    
+        
     }
- 
+    
     // MARK: - TableView Datasource and Delegate Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return categories?.count ?? 1
-    
     }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+   
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
-        
+    
         cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories added here yet"
         
         return cell
-   
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         performSegue(withIdentifier: "goToItems", sender: self)
-        
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! ToDoListViewController
         if let indexPath = tableView.indexPathForSelectedRow {
@@ -63,16 +63,8 @@ class CategoryViewController: UITableViewController {
     }
     func loadCategory () {
         categories = realm.objects(Category.self).sorted(byKeyPath: "created", ascending: false)
+        tableView.reloadData()
     }
-//    func loadCategories(with request: NSFetchRequest<Category> = Category.fetchRequest()) {
-//
-//        do {
-//          category = try context.fetch(Category.fetchRequest())
-//        } catch  {
-//            print("Error fetching request \(error)")
-//        }
-//        tableView.reloadData()
-//  }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if let category = categories?[indexPath.row] {
             do {
@@ -84,8 +76,8 @@ class CategoryViewController: UITableViewController {
             }
             tableView.reloadData()
         }
-
     }
+    
     // MARK: - Add New Categories
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -110,15 +102,19 @@ class CategoryViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
 }
-    //MARK: - Search
+
+
+//MARK: - Search
+
+
 extension CategoryViewController: UISearchBarDelegate {
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print("Errorz")
         if searchBar.text?.count == 0 {
             loadCategory()
         } else {
             categories = categories?.filter("name CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "name", ascending: true)
+            tableView.reloadData()
         }
     }
 }
+
